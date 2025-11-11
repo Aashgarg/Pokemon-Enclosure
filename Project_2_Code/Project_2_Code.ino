@@ -22,14 +22,19 @@ void setup() {
   ashServo.attach(9);
   trServo.attach(10);
   nurseServo.attach(11);
+  nurseEmojiServo.attach(12);
   Serial.begin(9600);
+
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   ashRunning();
-  teamRocket();
   nurseReveal();
+  pikachuStretcher()
+  nurseGoesYay()
+  panic()
+  teamRocket();
 }
 
 void ashRunning(){
@@ -46,6 +51,7 @@ void ashRunning(){
 void nurseReveal(){
   buttonState = digitalRead(nurseSwitch);
   if (buttonState == HIGH){
+    ashServo.write(90);
     nurseServo.write(90);
   }
   else{
@@ -55,7 +61,7 @@ void nurseReveal(){
 }
 
 void pikachuStretcher(){
-  buttonState = digitalRead (stretcherSwitch);
+  buttonState = digitalRead(stretcherSwitch);
    if (buttonState == HIGH){
     //lights go green
    }
@@ -63,10 +69,21 @@ void pikachuStretcher(){
 }
 
 void nurseGoesYay(){
+  buttonState = digitalRead(nurseEmojiSwitch);
+
+  if (buttonState == HIGH){
+    //green lights at exit light up
+    //360 servo for 
+  }
   //stretcher finishes it's round and nurse goes thumbs up and points to exit!
 }
 
 void panic(){
+  buttonState = digitalRead(nurseEmojiSwitch)
+  if (buttonState == LOW && //leds are green){
+    //redlights
+    //360 servo for nurse
+  }
   //pikachu goes on exit switch and red leds light up, nurse goes oh no
 }
 
