@@ -5,6 +5,9 @@ const int trSwitch = 6;
 const int nurseSwitch = 5;
 const int stretchSwitch = 4;
 const int nurseEmojiSwitch = 3;
+const int greenLightOne = 13;
+const int greenLightTwo = 2;
+const int redLight = 8;
 int buttonState = 0;
 int previousButtonState = 1;
 Servo ashServo;
@@ -19,6 +22,9 @@ void setup() {
   pinMode(nurseSwitch, INPUT);
   pinMode(stetchSwitch, INPUT);
   pinMode(nurseEmojiSwitch, INPUT);
+  pinMode(greenLightOne, OUTPUT);
+  pinMode(greenLightTwo, OUTPUT);
+  pinMode(redLight, OUTPUT);
   ashServo.attach(9);
   trServo.attach(10);
   nurseServo.attach(11);
@@ -63,7 +69,10 @@ void nurseReveal(){
 void pikachuStretcher(){
   buttonState = digitalRead(stretcherSwitch);
    if (buttonState == HIGH){
-    //lights go green
+    digitalWrite(greenLightOne, HIGH);
+   }
+   else{
+    digitalWrite(greenLightOne, LOW);
    }
   //pikachu gets placed on stretcher and green leds light up to guide user to push stretcher
 }
@@ -72,17 +81,22 @@ void nurseGoesYay(){
   buttonState = digitalRead(nurseEmojiSwitch);
 
   if (buttonState == HIGH){
-    //green lights at exit light up
-    //360 servo for 
+     digitalWrite(greenLightTwo, HIGH);
   }
+  else{
+    digitalWrite(greenLightTwo, LOW);
+  }
+  
   //stretcher finishes it's round and nurse goes thumbs up and points to exit!
 }
 
 void panic(){
   buttonState = digitalRead(nurseEmojiSwitch)
-  if (buttonState == LOW && //leds are green){
-    //redlights
-    //360 servo for nurse
+  if (buttonState == LOW && digitalRead(greenLight) == HIGH){
+    digitalWrite(redLight, HIGH)
+  }
+  else{
+    digitalWrite(redLight, LOW)
   }
   //pikachu goes on exit switch and red leds light up, nurse goes oh no
 }
