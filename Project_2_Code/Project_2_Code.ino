@@ -6,14 +6,26 @@ const int nurseSwitch = 5;
 const int stretchSwitch = 4;
 const int nurseEmojiSwitch = 3;
 const int greenLightOne = 13;
-const int greenLightTwo = 8;
+const int sensor = A0;
+const int threshold = 300;
+
 const int redLight = 2;
 int buttonState = 0;
 int previousButtonState = 1;
+int sensorval;
+
+
 Servo ashServo;
 Servo nurseServo;
 Servo nurseEmojiServo;
 Servo trServo;
+
+bool stateOne = true;
+bool stateTwo = false;
+bool stateThree = false;
+bool stateFour = false;
+bool stateFive = false;
+bool stateSix = false;
 
 void setup() {
   // put your setup code here, to run once:
@@ -23,7 +35,7 @@ void setup() {
   pinMode(stretchSwitch, INPUT);
   pinMode(nurseEmojiSwitch, INPUT);
   pinMode(greenLightOne, OUTPUT);
-  pinMode(greenLightTwo, OUTPUT);
+  //pinMode(sensor, INPUT);
   pinMode(redLight, OUTPUT);
   ashServo.attach(9);
   trServo.attach(10);
@@ -35,18 +47,36 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  ashRunning();
-  nurseReveal();
-  pikachuStretcher();
-  nurseGoesYay();
-  //panic();
-  teamRocket();
+  if (stateOne = true){
+    ashRunning();
+  }
+  if (stateTwo = true){
+    nurseReveal();
+  }
+  if (stateThree = true){
+    pikachuStretcher();
+  }
+  if (stateFour = true){
+    exit()
+  }
+  if (stateFive = true){
+    teamRocket();
+  }
+  
 }
 
 void ashRunning(){
   buttonState = digitalRead(ashSwitch);
   if (buttonState == LOW){
-    ashServo.write(90);
+    if (sensorVal > threshold){
+      ashServo.write(98);
+    }
+    else{
+      ashServo.write(90);
+      stateOne = false;
+      stateTwo = true;
+    }
+    
   }
   else{
     ashServo.write(90);
@@ -58,9 +88,12 @@ void nurseReveal(){
   buttonState = digitalRead(nurseSwitch);
   if (buttonState == HIGH){
     nurseServo.write(80);
+    ashServo.write(90);
+    stateThree = true
   }
   else{
     nurseServo.write(0);
+    //ashServo.write(90);
   }
   //Ash gets placed near entrance and nurse joy comes up
 }
@@ -69,38 +102,30 @@ void pikachuStretcher(){
   buttonState = digitalRead(stretchSwitch);
    if (buttonState == HIGH){
     digitalWrite(greenLightOne, HIGH);
-    //Serial.println("yay");
+    ashServo.write(90);
+    stateFour = true;
    }
    else{
     digitalWrite(greenLightOne, LOW);
+    //ashServo.write(90);
    }
   //pikachu gets placed on stretcher and green leds light up to guide user to push stretcher
 }
 
-void nurseGoesYay(){
+void exit(){
   buttonState = digitalRead(nurseEmojiSwitch);
 
   if (buttonState == HIGH){
     nurseEmojiServo.write(100);
+    ashServo.write(90);
+    stateFive = true;
   }
   else{
     nurseEmojiServo.write(90);
-    panic();
+    //ashServo.write(90);
   }
   
   //stretcher finishes it's round and nurse goes thumbs up and points to exit!
-}
-
-void panic(){
-  buttonState = digitalRead(nurseEmojiSwitch);
-  if (buttonState == LOW){
-    digitalWrite(greenLightTwo, HIGH);
-    //print("yay")
-  }
-  else{
-    digitalWrite(greenLightTwo, LOW);
-  }
-  //pikachu goes on exit switch and red leds light up, nurse goes oh no
 }
 
 void teamRocket(){
@@ -108,10 +133,12 @@ void teamRocket(){
   
   if (buttonState == HIGH){
     trServo.write(90);
+    ashServo.write(90);
   }
   else{
-    delay(200);
+    //delay(200);
     trServo.write(0);
+    //ashServo.write(90);
   }
   //pikachu goes around to explosion and when goes on switch team rocket goes up on top with team rocket theme on piezo
 }
