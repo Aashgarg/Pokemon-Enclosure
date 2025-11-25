@@ -57,7 +57,7 @@ void loop() {
     pikachuStretcher();
   }
   if (stateFour = true){
-    exit()
+    exit();
   }
   if (stateFive = true){
     teamRocket();
@@ -67,8 +67,10 @@ void loop() {
 
 void ashRunning(){
   buttonState = digitalRead(ashSwitch);
+  sensorval = analogRead(sensor);
+  Serial.println(sensorval);
   if (buttonState == LOW){
-    if (sensorVal > threshold){
+    if (sensorval > threshold){
       ashServo.write(98);
     }
     else{
@@ -89,7 +91,7 @@ void nurseReveal(){
   if (buttonState == HIGH){
     nurseServo.write(80);
     ashServo.write(90);
-    stateThree = true
+    stateThree = true;
   }
   else{
     nurseServo.write(0);
