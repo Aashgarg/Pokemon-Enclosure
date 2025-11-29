@@ -7,7 +7,7 @@ const int stretchSwitch = 4;
 const int nurseEmojiSwitch = 3;
 const int greenLightOne = 13;
 const int sensor = A0;
-const int threshold = 300;
+const int threshold = 10;
 
 const int redLight = 2;
 int buttonState = 0;
@@ -37,7 +37,7 @@ void setup() {
   pinMode(greenLightOne, OUTPUT);
   //pinMode(sensor, INPUT);
   pinMode(redLight, OUTPUT);
-  ashServo.attach(9);
+  ashServo.attach(8);
   trServo.attach(10);
   nurseServo.attach(11);
   nurseEmojiServo.attach(12);
@@ -67,13 +67,16 @@ void loop() {
 
 void ashRunning(){
   buttonState = digitalRead(ashSwitch);
+
   sensorval = analogRead(sensor);
   Serial.println(sensorval);
   if (buttonState == LOW){
-    if (sensorval > threshold){
-      ashServo.write(98);
+    if (sensorval > 20){
+      Serial.println("Hi");
+      ashServo.write(98); //have to push since this was previously commented out
     }
     else{
+      Serial.println("stop");
       ashServo.write(90);
       stateOne = false;
       stateTwo = true;
@@ -118,6 +121,7 @@ void exit(){
   buttonState = digitalRead(nurseEmojiSwitch);
 
   if (buttonState == HIGH){
+    Serial.println("this");
     nurseEmojiServo.write(100);
     ashServo.write(90);
     stateFive = true;
